@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Board
   # variables for Board class
   attr_accessor :board
@@ -5,34 +7,45 @@ class Board
   def initialize
     @board = create_board
 
-    
-    puts "---GAME BOARD CREATED---"
+    puts "\r"
+    puts '---GAME BOARD CREATED---'
+    puts "\r"
     display_board
   end
 
-  def update_board(player, coordinates)
-    i = coordinates[0]
-    j = coordinates[1]
-    player_symbol = player.get_symbol
+  # Method to update the board that takes in the move coordinates and player's symbol
+  def update_board(player, move)
+    # move[0, 1] assigns to variables i for row and j for column
+    i = move[0]
+    j = move[1]
 
-    board[i][j] = player_symbol
+    # Check if cell is empty
+    # If true, place symbol
+    board[i][j] = cell_empty?(board[i][j]) ? player.place_symbol : '-'
 
     display_board
   end
 
+  # Protected methods
   protected
 
+  # Method to display the game board
   def display_board
     puts "\r"
-    puts "#{board[0][0]} | #{board[0][1]} | #{board[0][2]}"
-    puts "#{board[1][0]} | #{board[1][1]} | #{board[1][2]}"
-    puts "#{board[2][0]} | #{board[2][1]} | #{board[2][2]}"
+    # Loops the board arrays to display the nested elements
+    board.each do |first, second, third|
+      puts "#{first} | #{second} | #{third}"
+    end
     puts "\r"
   end
 
-  # Method to create the game board with 3 arrays each with 3 elements
-  # To make up a 3x3 game board
+  # Method to create the game board with 3 arrays each with 3 elements to make up a 3x3 game board
   def create_board
-    return Array.new(3) { Array.new(3, "_") }
+    self.board = Array.new(3) { Array.new(3, '-') }
+  end
+
+  # Method to check if cell is empty
+  def cell_empty?(cell)
+    cell == '-'
   end
 end
