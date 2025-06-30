@@ -11,5 +11,6 @@ require_relative 'lib/game'
 player1 = Player.new
 player2 = Player.new
 board = Board.new
+game = Game.new
 
-start_game(player1, player2, board)
+game.start_game(player1, player2, board)

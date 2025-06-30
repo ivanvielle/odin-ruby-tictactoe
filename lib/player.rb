@@ -5,6 +5,7 @@ class Player
   @@num_of_players = 0
   attr_accessor :name, :symbol
 
+  # Constructor
   def initialize
     # Break line for Player class initialization then asks for the player's name
     puts "\r\n"
@@ -21,20 +22,25 @@ class Player
     display_symbol
   end
 
-  # Method to place symbol on cells
-  def place_symbol
+  # Get player name
+  def get_name
+    name  
+  end
+
+  # Get player symbol
+  def get_symbol
     symbol
   end
 
   # Protected methods
   protected
 
-  # Method to assign symbol to players, "X" for player 1, "O" for player 2
+  # Assign symbol to players, "X" for player 1, "O" for player 2
   def assign_player_symbol
     self.symbol = @@num_of_players.zero? ? 'X' : 'O'
   end
 
-  # Method to display the symbol assigned to player
+  # Display the symbol assigned to player
   def display_symbol
     puts "#{name}'s symbol is #{symbol}"
     puts "\r"
