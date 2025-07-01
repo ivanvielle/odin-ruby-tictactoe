@@ -4,6 +4,7 @@ class Game
   # variables for Board class
   @@turn = ''
   @@winner = ''
+  @@draw = false
 
   # Constructor
   def initialize
@@ -14,15 +15,17 @@ class Game
 
   # Start the game
   def start_game(player1, player2, board)
-    if @@turn.empty?
-      @@turn = player2.get_name
-    end
+    @@turn = player1
 
-    player_move(player1, board)
+    if @@winner.empty? && !@@draw
+      player_move(@@turn, board, player1, player2) while @@winner.empty? && !@@draw
+    else
+      end_game
+    end
   end
 
   # Move the player takes that takes the player object and the game board
-  def player_move(player, board)
+  def player_move(player, board, player1, player2)
     move = []
 
     puts 'Choose a row: |1 - 3|'
@@ -35,16 +38,16 @@ class Game
 
     board.update_board(player, move)
 
-    check_for_winner(player, board)
+    check_for_winner(board, player1, player2)
 
     # Resets the move array to default value
     []
   end
 
-  def check_for_winner(player, board)
-    name = player.get_name
+  def check_for_winner(board, player1, player2)
+    name = @@turn.get_name
     board = board.get_board
-    player_symbol = player.get_symbol
+    player_symbol = @@turn.get_symbol
 
     # horizontal checking
     horizontal_1 = board[0][0] == player_symbol && board[0][1] == player_symbol && board[0][2] == player_symbol
@@ -62,34 +65,39 @@ class Game
 
     # criteria for winning
     criteria = [
-      horizontal_1, horizontal_2, horizontal_3, 
+      horizontal_1, horizontal_2, horizontal_3,
       vertical_1, vertical_2, vertical_3,
       diagonal_1, diagonal_2
     ]
     i = 0
 
-    while i < criteria.length do
+    while i < criteria.length
       if criteria[i]
         @@winner = name
-        end_game
         break
-      else        
+      else
         i += 1
       end
     end
 
-    if @@winner.empty?
-      change_turn(player)
+    if @@draw
+      puts "It's a tie!"
+    elsif @@winner.empty?
+      change_turn(player1, player2)
     else
       puts "#{@@winner} wins!"
     end
   end
 
   # Change player turn
-  def change_turn(player)
-    @@turn = player
+  def change_turn(player1, player2)
+    @@turn = if @@turn == player1
+               player2
+             else
+               player1
+             end
 
-    puts "#{player.get_name}'s turn"
+    puts "#{@@turn.get_name}'s turn"
   end
 
   # End the game
@@ -97,5 +105,7 @@ class Game
     puts "\r"
     puts 'GAME OVER!'
     puts "\r"
+
+    exit 0
   end
 end

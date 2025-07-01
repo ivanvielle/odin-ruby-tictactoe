@@ -24,7 +24,7 @@ class Player
 
   # Get player name
   def get_name
-    name  
+    name
   end
 
   # Get player symbol

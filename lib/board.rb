@@ -25,7 +25,7 @@ class Board
 
     # Check if cell is empty
     # If true, place symbol
-    self.board[i][j] = cell_empty?(self.board[i][j]) ? player.get_symbol : '-'
+    board[i][j] = cell_empty?(board[i][j]) ? player.get_symbol : '-'
 
     display_board
   end
@@ -41,7 +41,7 @@ class Board
   def display_board
     puts "\r"
     # Loops the board arrays to display the nested elements
-    self.board.each do |first, second, third|
+    board.each do |first, second, third|
       puts "#{first} | #{second} | #{third}"
     end
     puts "\r"
